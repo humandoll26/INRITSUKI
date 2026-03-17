@@ -99,6 +99,13 @@
         </div>
 
         <div class="guide-note">
+          <p class="guide-note-title">Node.js の導入手順</p>
+          <ol class="guide-list">
+            <li><a href="https://nodejs.org/" target="_blank" rel="noreferrer noopener">Node.js 公式サイト</a> から LTS 版をインストールします。</li>
+            <li>インストール後に、コマンドプロンプトや PowerShell で <code>node -v</code> を実行し、バージョンが表示されることを確認します。</li>
+            <li>このツールでは、Node.js を使って <code>server.mjs</code> という小さなローカルサーバーを起動します。</li>
+            <li>難しい準備は不要です。追加のビルドやインストール作業はなく、<code>start-server.cmd</code> を実行すれば起動できます。</li>
+          </ol>
           <p class="guide-note-title">VOICEVOX の導入手順</p>
           <ol class="guide-list">
             <li><a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noreferrer noopener">VOICEVOX 公式サイト</a> からアプリをダウンロードします。</li>
@@ -109,10 +116,10 @@
           <ol class="guide-list">
             <li>VOICEVOX を起動します。</li>
             <li>ブラウザで <code>http://127.0.0.1:50021/version</code> を開き、バージョン文字列が見えることを確認します。</li>
-            <li>このフォルダで <code>start-server.cmd</code> を起動します。</li>
+            <li>このフォルダで <code>start-server.cmd</code> を起動します。内部では Node.js で <code>server.mjs</code> を実行しています。</li>
             <li>黒いウィンドウを閉じずに、<code>http://127.0.0.1:5173/</code> を開きます。</li>
           </ol>
-          <p class="guide-note-caption">うまく接続できない場合は、VOICEVOX 本体を先に起動してから韻律機を開いてください。</p>
+          <p class="guide-note-caption">初めて使う場合は、まず Node.js を入れてから VOICEVOX を入れ、最後に <code>start-server.cmd</code> を実行してください。うまく接続できない場合は、Node.js と VOICEVOX の両方が導入済みで、VOICEVOX 本体を先に起動しているか確認してください。</p>
         </div>
 
         <div class="export-note">
