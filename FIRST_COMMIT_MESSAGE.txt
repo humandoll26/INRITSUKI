@@ -1,0 +1,10 @@
+初回コミット候補
+
+feat: add INRITSUKI local VOICEVOX recital tool
+
+長めの説明候補
+
+- add local proxy server for VOICEVOX connection
+- add tanka-oriented UI for display text and reading text
+- add canvas preview and WebM export
+- add VOICEVOX setup guide and GitHub-ready README

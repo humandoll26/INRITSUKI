@@ -1,0 +1,20 @@
+GitHub の説明文候補
+
+短い説明文:
+短歌向けに、VOICEVOX で朗読しながら縦書き動画を作るローカルツール。
+
+少し長い説明文:
+短歌向けに、テロップ表示と読み上げテキストを分けて入力し、VOICEVOX で朗読しながら縦書き動画を作れるローカルツールです。
+
+README 冒頭の一文候補:
+韻律機は、短歌向けにテロップ表示と読み上げを分けて整え、VOICEVOX で朗読しながら縦書き動画を書き出すためのローカルツールです。
+
+GitHub Topics 候補:
+voicevox
+tanka
+japanese
+poetry
+text-to-speech
+webm
+frontend
+creative-tools

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韻律機 | INRITSUKI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Retro Recitation Generator</p>
+      <h1>韻律機 <span>INRITSUKI</span></h1>
+      <p class="hero-copy">短歌向けに、テロップ表示と読み上げテキストを分けて、VOICEVOX で朗読しながら縦書き動画を作れるツールです。</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel control-panel">
+        <div class="panel-heading">
+          <h2>入力</h2>
+          <p>短歌向けの入力欄です。改行または <code>/</code> で句切りし、基本は五句を想定しています。</p>
+        </div>
+
+        <label class="field">
+          <span>テロップ表示</span>
+          <textarea
+            id="displayInput"
+            rows="6"
+            maxlength="120"
+            placeholder="春の夜の&#10;夢ばかりなる&#10;手枕に&#10;かひなく立たむ&#10;名こそ惜しけれ"
+          >春の夜の
+夢ばかりなる
+手枕に
+かひなく立たむ
+名こそ惜しけれ</textarea>
+          <small class="field-note">現在は短歌形式を前提にしています。五句で入れると最も安定します。</small>
+        </label>
+
+        <label class="field">
+          <span>読み上げ</span>
+          <textarea
+            id="readingInput"
+            rows="6"
+            maxlength="160"
+            placeholder="はるのよの&#10;ゆめばかりなる&#10;たまくらに&#10;かいなくたたむ&#10;なこそおしけれ"
+          >はるのよの
+ゆめばかりなる
+たまくらに
+かいなくたたむ
+なこそおしけれ</textarea>
+          <small class="field-note">空欄ならテロップ表示の内容をそのまま読み上げに使います。こちらも短歌の五句入力を前提にしています。</small>
+        </label>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>話者</span>
+            <select id="speakerSelect"></select>
+          </label>
+          <label class="field">
+            <span>速度</span>
+            <select id="rateSelect">
+              <option value="0.8">0.8</option>
+              <option value="1" selected>1.0</option>
+              <option value="1.2">1.2</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>句間</span>
+            <select id="pauseSelect">
+              <option value="300">300ms</option>
+              <option value="600" selected>600ms</option>
+              <option value="1000">1000ms</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>文字サイズ</span>
+          <div class="size-control">
+            <input id="fontScaleInput" type="range" min="60" max="120" step="5" value="85">
+            <strong id="fontScaleValue">85%</strong>
+          </div>
+          <small class="field-note">長いテキストに合わせて自動調整しつつ、この倍率で手動補正できます。</small>
+        </label>
+
+        <div class="toolbar">
+          <button type="button" class="primary-button" id="reciteButton">朗読する</button>
+          <button type="button" class="secondary-button" id="saveVideoButton" disabled>動画を保存</button>
+        </div>
+
+        <div id="statusRow" class="status-row">
+          <div class="status-head">
+            <span class="status-label">状態</span>
+            <strong id="statusText">待機中</strong>
+          </div>
+          <div class="status-bar" aria-hidden="true">
+            <div id="statusProgress" class="status-progress"></div>
+          </div>
+        </div>
+
+        <div class="guide-note">
+          <p class="guide-note-title">VOICEVOX の導入手順</p>
+          <ol class="guide-list">
+            <li><a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noreferrer noopener">VOICEVOX 公式サイト</a> からアプリをダウンロードします。</li>
+            <li>インストーラーを実行して、VOICEVOX 本体をインストールします。</li>
+            <li>インストール後に VOICEVOX を起動します。</li>
+          </ol>
+          <p class="guide-note-title">VOICEVOX の起動手順</p>
+          <ol class="guide-list">
+            <li>VOICEVOX を起動します。</li>
+            <li>ブラウザで <code>http://127.0.0.1:50021/version</code> を開き、バージョン文字列が見えることを確認します。</li>
+            <li>このフォルダで <code>start-server.cmd</code> を起動します。</li>
+            <li>黒いウィンドウを閉じずに、<code>http://127.0.0.1:5173/</code> を開きます。</li>
+          </ol>
+          <p class="guide-note-caption">うまく接続できない場合は、VOICEVOX 本体を先に起動してから韻律機を開いてください。</p>
+        </div>
+
+        <div class="export-note">
+          <p class="export-note-title">保存形式</p>
+          <p>動画保存は WebM です。MP4 が必要な場合は、保存後に外部変換サイトを利用してください。</p>
+          <p class="export-links">
+            <a href="https://cloudconvert.com/webm-to-mp4" target="_blank" rel="noreferrer noopener">CloudConvert</a>
+            <a href="https://www.freeconvert.com/webm-to-mp4" target="_blank" rel="noreferrer noopener">FreeConvert</a>
+          </p>
+          <p class="export-note-caption">外部サイトに動画をアップロードします。機密性の高い内容には使わないでください。</p>
+        </div>
+
+        <div id="errorBox" class="message-box" aria-live="polite"></div>
+
+        <div class="panel-subsection">
+          <h3>句のプレビュー</h3>
+          <ol id="phraseList" class="phrase-list"></ol>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="panel-heading">
+          <h2>Canvas プレビュー</h2>
+          <p>テロップ表示の文字列を縦一列で表示し続けます。</p>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="previewCanvas" width="1080" height="1920"></canvas>
+        </div>
+        <audio id="audioPlayer" controls preload="auto"></audio>
+      </section>
+    </main>
+
+    <footer class="credit-panel">
+      <p>このツールは VOICEVOX を利用しています。</p>
+      <p id="voicevoxCharacterList">VOICEVOX: 四国めたん / 春日部つむぎ / ずんだもん</p>
+      <p>保存後に MP4 が必要な場合は外部変換サイトを使ってください。</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
